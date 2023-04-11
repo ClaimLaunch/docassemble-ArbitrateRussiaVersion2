@@ -1,0 +1,129 @@
+metadata:
+  title: ClaimLaunch - Arbitration Claims Against Russia
+  short title: ClaimLaunch
+---
+features:
+  navigation: True
+  navigation back button: False
+---
+modules:
+  - datetime
+---
+objects:
+  - client: Individual
+  - asset: Event
+---
+sections:
+  - intro: Introduction
+    subsections:
+    -  disclaimer: Disclaimer
+    -  process: Process
+  - contact_info: Contact info
+  - asset_info: Asset info
+    subsections:
+    - asset_description: Asset Description
+    - ownership_docs: Upload ownership documents
+  - conclusion: Conclusion
+---
+include:
+  -  disclaimer.yml
+  -  process.yml
+---
+mandatory: True
+section: contact_info
+question: What is your name, email address and phone number?
+fields:
+  - Full Name: investor
+  - E-mail: email_address
+    datatype: email
+  - Phone number: phone_number
+validation code: |
+  if not phone_number_is_valid(phone_number):
+    validation_error("Please enter a valid phone number", field="phone_number")
+  phone_number = phone_number_formatted(phone_number)    
+---
+mandatory: True
+section: contact_info
+question: What is your mailing address?
+fields:
+  - Address: client.address.address
+  - Unit: client.address.unit
+    required: False
+  - City: client.address.city
+  - State: client.address.state
+    required: False
+  - Postal Code: client.address.postal_code
+    required: False
+  - Country: client.address.country
+    code: |
+      countries_list()
+---
+event: contact_info
+section: contact_info
+question: |
+  Review contact information
+review:
+  - Edit name: investor
+    button: |
+      Name: ${ investor }
+  - Edit e-mail: email_address
+    button: |
+      E-mail: ${ email_address }
+  - Edit phone number: phone_number
+    button: |
+      Phone number: ${ phone_number }
+  - Edit address: client.address.address
+    button: |
+      Phone number: ${ client.address.address }, ${ client.address.address. city }
+        ${client.address.state} ${client.address.zip} ${client.address.county}
+---
+mandatory: True
+section: asset_description
+question: Where is your damged asset is located?
+fields:
+  - Address: asset.address.address
+  - Unit: asset.address.unit
+    required: False
+  - City: asset.address.city
+    required: False
+  - Province: asset.province
+    choices:
+    - Donetsk
+    - Kherson
+    - Luhansk
+    - Zaporizhzhia
+    help: We only support the following provinces at this time - Donetsk, Kherson, Luhansk and Zaporizhzhia   
+  - Postal Code: asset.address.postal_code
+    required: False
+---
+mandatory: True
+section: asset_description
+question: Plese provide the following information about the damaged asset
+fields:
+  - Did you purchase the asset, recive it as a gift, or inhereted the asset?: asset.ownership
+    label above field: True    
+    choices:
+    - Purchased
+    - Inhereted
+    - Recived as gift
+    default: Purchased
+  - What was the asset used for?: asset.uses
+    label above field: True
+    input type: area
+    hint: Housing (who lived there? for how long?), business (please describe main uses, annual income and any other relevant information) or other use? Please elaborate. 
+  - Tell us a little about how you purchased or recived the asset: asset.ownership_background
+    label above field: True
+    input type: area
+  - When did you purchase or recive ownership over the asset?: asset.date
+    label above field: True
+    datatype: date
+    validate: |
+      lambda y: True if not as_datetime(y) < as_datetime('1/1/1992') else validation_error("If before 1992, this form may not be suitable for your needs")
+---
+mandatory: True
+section: ownership_docs
+question: Please upload any documents and records supporting your ownership of the asset
+fields:
+  - Supporting Documents: asset.supporting_docs
+    datatype: files
+---

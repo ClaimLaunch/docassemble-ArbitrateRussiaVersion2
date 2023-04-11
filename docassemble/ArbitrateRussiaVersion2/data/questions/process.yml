@@ -1,0 +1,26 @@
+---
+mandatory: True
+event: process
+section: process
+question: |
+  Process
+subquestion: |
+  [FILE process.png, 100%]
+  We make investment treaty arbitration simple and affordable for Ukrainian citizens affected by damages caused by Russian military actions in the annexed territories of Ukraine. The process involves:
+  
+  1.  Complete online questionnaire: Our easy-to-use questionnaire collects the necessary information to create the basic arbitration documents.
+
+  2.  AI-generated arbitration documents: Based on your answers, our AI system creates the necessary documents to start the arbitration process.
+
+  3.  Review and approve generated documents: You can review and approve the documents before they are filed.
+
+  4.  Send notice of intent to the Russian government: The notice informs Russia of your intention to begin the arbitration process.
+
+  5.  Submit arbitration claim: The claim sets out the basis for your case, including the facts and legal arguments.
+
+  6.  Appoint arbitrator: The parties agree on an arbitrator, or the institution administering the arbitration will appoint one.
+
+  7.  Tribunal decision (arbitration award): The tribunal may award compensation for damages or deny the claim. In some cases, the tribunal may award costs to either party. Note that the tribunal may require supplemental materials or a hearing in certain cases, despite your request to rely solely on the arbitration claim.
+buttons:
+  Continue: continue
+---

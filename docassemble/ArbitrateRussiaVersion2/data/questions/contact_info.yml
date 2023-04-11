@@ -1,0 +1,18 @@
+---
+mandatory: True
+section: contact_info
+question: Please provide the following identifying and contact information
+fields:
+  - Full Name: investor
+  - E-mail: email_address
+    datatype: email
+  - Address: address.address
+    address autocomplete: True
+  - City: address.city
+  - State: address.state
+    code: |
+      states_list()
+  - Zip: address.zip
+    required: False
+  - County: address.county    
+---

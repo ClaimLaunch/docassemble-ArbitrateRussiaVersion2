@@ -1,0 +1,34 @@
+---
+template: disclaimer_template
+content: |
+  Our AI-powered online service generates a draft of an investment treaty arbitration claim but does not provide legal advice. The generated claim may require review and modification by a licensed attorney.
+  We do not guarantee the accuracy, completeness, or suitability of the generated claim, nor do we accept any liability for any loss or damage that may arise from its use. By using our service, you acknowledge that you assume all responsibility and risk associated with the use of the generated claim.
+  The information provided to us is not confidential and may be used for research, product development, or by third-party service providers. The information may also be processed by third parties on our behalf. We cannot guarantee the security of any information that you transmit to us through the use of our service.
+  You agree to indemnify and hold harmless our company, its affiliates, and its officers, directors, employees, agents, and representatives from any claims, damages, liabilities, costs, and expenses arising from your use of our service.
+  The generated claim is intended for informational purposes only and is not a substitute for legal advice. The use of the generated claim in any legal proceeding is at your own risk, and you should seek the advice of a licensed attorney before using it.
+  The copyright in the generated claim is owned by our company, subject to the terms of use of our service.
+  We are not affiliated with any government or regulatory body, and our service is not intended to serve as an endorsement or approval of any specific investment treaty arbitration claim.
+  We cannot guarantee specific outcomes or results from the use of our service, and are not liable for any damages caused by the use of our services.
+  We reserve the right to modify this disclaimer at any time.
+  By using our service, you acknowledge that you have read this disclaimer and agree to its terms and conditions.
+---
+event: disclaimer
+section: disclaimer
+question: |
+  DISCLAIMER
+subquestion: |
+ ${ disclaimer_template }
+buttons:
+  - I acknowledge that I have read this disclaimer and agree to its terms and conditions: continue
+    color: success
+---
+mandatory: True
+section: disclaimer
+question: |
+  DISCLAIMER
+subquestion: |
+ ${ disclaimer_template }
+buttons:
+  - I acknowledge that I have read this disclaimer and agree to its terms and conditions: continue
+    color: success
+---
