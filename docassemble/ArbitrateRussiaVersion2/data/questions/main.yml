@@ -23,6 +23,15 @@ sections:
     subsections:
     - asset_description: Asset Description
     - ownership_docs: Upload ownership documents
+  - events: Sequence of events
+    subsections:
+    - events_description: Description
+    - events_docs: Supporting Documents
+  - damage_page: Damages
+    subsections:
+    - damages: Description
+    - damages_docs: Supporting Documents
+  - confirm: Review responses
   - conclusion: Conclusion
 ---
 include:
@@ -74,7 +83,7 @@ review:
       Phone number: ${ phone_number }
   - Edit address: client.address.address
     button: |
-      Phone number: ${ client.address.address }, ${ client.address.address. city }
+      Mailing address: ${ client.address.address }, ${ client.address.address. city }
         ${client.address.state} ${client.address.zip} ${client.address.county}
 ---
 mandatory: True
@@ -86,7 +95,7 @@ fields:
     required: False
   - City: asset.address.city
     required: False
-  - Province: asset.province
+  - Province: asset.address.province
     choices:
     - Donetsk
     - Kherson
@@ -107,10 +116,10 @@ fields:
     - Inhereted
     - Recived as gift
     default: Purchased
-  - What was the asset used for?: asset.uses
+  - What was the asset used for?: asset.use
     label above field: True
     input type: area
-    hint: Housing (who lived there? for how long?), business (please describe main uses, annual income and any other relevant information) or other use? Please elaborate. 
+    hint: Was the asset used for housing (who lived there? for how long?), business (please describe main uses, annual income and any other relevant information) or other use? Please elaborate. 
   - Tell us a little about how you purchased or recived the asset: asset.ownership_background
     label above field: True
     input type: area
@@ -120,10 +129,154 @@ fields:
     validate: |
       lambda y: True if not as_datetime(y) < as_datetime('1/1/1992') else validation_error("If before 1992, this form may not be suitable for your needs")
 ---
+event: asset_description
+section: asset_description
+question: |
+  Review asset information
+review:
+  - Edit asset address: asset.address.address
+    button: |
+      Asset address: ${ asset.address.address }, ${ asset.address.city },
+        ${ asset.address.province } ${ asset.address.postal_code }
+  - Edit ownership method: asset.ownership
+    button: |
+      Ownership method: ${ asset.ownership }
+  - Edit uses: asset.use
+    button: |
+      Uses: ${ asset.use }
+  - Edit phone number: phone_number
+    button: |
+      Phone number: ${ phone_number }
+
+---
 mandatory: True
 section: ownership_docs
 question: Please upload any documents and records supporting your ownership of the asset
 fields:
   - Supporting Documents: asset.supporting_docs
     datatype: files
+    required: False
+---
+event: ownership_docs
+section: ownership_docs
+question: |
+  Review supporting documentation of ownership
+review:
+  - Edit uploaded documents: asset.supporting_docs
+    button: |
+      : ${ asset.supporting_docs }
+---
+mandatory: True
+section: events_description
+question: Please describe the sequence of events that led to the damages you suffered as a result of the Russian forces' actions
+subquestion: Please include any specific details you remember, such as the date and time of the events, the location where they occurred, and any individuals or groups involved.
+fields:
+  - : asset.events
+    label above field: True    
+    input type: area
+    rows: 10
+---
+event: events_description
+section: events_description
+question: |
+  Review description of events
+review:
+  - Edit asset address: asset.events
+    button: |
+      Asset address: ${ asset.events }
+---
+mandatory: True
+section: events_docs
+question: Events - supporting documentation
+sebquestion: Please upload any documents, photos, or other evidence that support your description of the events leading to the damages you suffered as a result of the Russian military forces' actions. This may include but is not limited to medical records, police reports, or eyewitness accounts
+fields:
+  - Supporting Documents: asset.events_evidence
+    datatype: files
+    required: False
+---
+event: events_docs
+section: events_docs
+question: |
+  Review supporting documentation of events
+review:
+  - Edit uploaded documents: asset.events_evidence
+    button: |
+      : ${ asset.events_evidence }
+---
+mandatory: True
+section: damages
+question: Damages estimations
+subquestion: Please provide the following information to estimate your damages.
+fields:
+  - What was the value of your asset when first purchased/recived?: asset.initial_value
+    datatype: currency
+    min: 0
+  - Did you invest in improving the asset?: asset.improved
+    datatype: yesnoradio
+  - How much did you invest in improving the asset?: asset.additinal_investment      
+    datatype: currency
+    min: 0
+    show if: asset.improved
+  - Do you have an assessment of the value of the asset prior to Russia's actions?: asset.assessment
+    datatype: yesnoradio
+  - Asset value prior Russia's actions: asset.value      
+    datatype: currency
+    min: 0
+    show if: asset.assessment
+  - Please explain the basis for the asset's value assessment: asset.value_explanation
+    show if: asset.assessment
+    input type: area
+---
+on change:
+  asset.improved: |
+    if not asset.improved:
+      asset.additinal_investment=""
+---
+on change:
+  asset.assessment: |
+    if not asset.assessment:
+      asset.value= ""
+      asset.value_explanation=""
+---
+event: damages
+section: damages
+question: Review damages information and estimations
+review:
+  - Edit initial value: asset.initial_value
+    button: |
+      Initial value: ${ asset.initial_value }
+  - Edit additional investment: asset.improved
+    button: |
+      Additional investment: ${ asset.additinal_investment }
+  - Edit value assessment: asset.assessment
+    button: |
+      Value assessment: ${ asset.value }
+        ${ asset.value_explanation}
+---
+mandatory: True
+section: damages_docs
+question: Damages - supporting documentation
+sebquestion: Please upload any documents or evidence that support the value of your asset when first purchased/received, any investments made to improve the asset, and any assessment of the asset's value prior to Russia's actions. This may include but is not limited to receipts, invoices, appraisals, or other relevant documentation.
+fields:
+  - Supporting Documents: asset.damages_evidence
+    datatype: files
+    required: False
+---
+event: damages_docs
+section: damages_docs
+question: |
+  Review supporting documentation of events
+review:
+  - Edit uploaded documents: asset.damages_evidence
+    button: |
+      : ${ asset.damages_evidence }
+---
+event: damages_docs
+section: damages_docs
+question: |
+  Review supporting documentation of damages
+review:
+  - Edit uploaded documents: asset.damages_evidence
+    button: |
+      : ${ asset.damages_evidence }
 ---
