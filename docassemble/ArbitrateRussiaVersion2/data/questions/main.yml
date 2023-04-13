@@ -280,3 +280,17 @@ review:
     button: |
       : ${ asset.damages_evidence }
 ---
+mandatory: True
+section: confirm
+event: confirm
+question: |
+  Review
+subquestion: |
+  Thank you for completing the interview form. 
+  
+  We have collected all the information we need to prepare your arbitration claim against Russia. Before proceeding, please take a moment to review your responses using the navigation bar at the top/side of the page. If you need to make any changes or corrections, you may do so now. 
+  
+  Once you are satisfied with your responses, please click 'Continue' to generate the document.
+buttons:
+  Continue: continue
+---
