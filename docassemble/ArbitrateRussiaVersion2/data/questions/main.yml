@@ -12,6 +12,11 @@ modules:
 objects:
   - client: Individual
   - asset: Event
+  - company_logo: DAStaticFile.using(filename='com_logo.png')
+---
+mandatory: True
+code: |
+  set_parts(logo='<img src="' + company_logo.url_for() + '" style="height: 40px; width: 157px;">')
 ---
 sections:
   - intro: Introduction
@@ -292,5 +297,12 @@ subquestion: |
   
   Once you are satisfied with your responses, please click 'Continue' to generate the document.
 buttons:
-  Continue: continue
+  Continue: start_gpt
 ---
+event: start_gpt
+code: |
+  tts_task
+  if tts_task.ready():
+    final_screen
+  else:
+    waiting_screen

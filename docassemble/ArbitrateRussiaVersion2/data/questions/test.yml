@@ -1,0 +1,16 @@
+---
+modules:
+  - .test
+---
+
+---
+mandatory: True
+question: |
+  Process
+subquestion: |
+  Hello! my name is ${a}!
+---
+---
+code: |
+  a = test_gpt()
+---
