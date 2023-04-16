@@ -42,6 +42,7 @@ sections:
 include:
   -  disclaimer.yml
   -  process.yml
+  -  gpt_commands.yml
 ---
 mandatory: True
 section: contact_info
@@ -301,8 +302,8 @@ buttons:
 ---
 event: start_gpt
 code: |
-  tts_task
-  if tts_task.ready():
+  the_task
+  if the_task.ready():
     final_screen
   else:
     waiting_screen
