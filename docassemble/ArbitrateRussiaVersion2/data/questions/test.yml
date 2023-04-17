@@ -1,6 +1,6 @@
 ---
 modules:
-  - .test
+  - .background
 ---
 
 ---
@@ -8,9 +8,9 @@ mandatory: True
 question: |
   Process
 subquestion: |
-  Hello! my name is ${a}!
+   ${use_description}
 ---
 ---
 code: |
-  a = test_gpt()
+  use_description=use_gpt("I lived there with my family - 2 grown ups and one child, for 7 years")
 ---

@@ -1,0 +1,84 @@
+---
+modules:
+  - .background
+---
+objects:
+  - r: DARedis
+  - asset: Event
+---
+mandatory: True
+code: |
+  log_key = r.key('log:' + user_info().session)
+  messages = list()
+---
+mandatory: True
+code: |
+  asset.events = "test asset events"
+  asset.use = "test asset use"
+  if the_task.ready():
+    last_messages_retrieved
+    final_screen
+  else:
+    waiting_screen
+---
+code: |
+  the_task = background_action('bg_task', 'refresh', events=asset.events,use=asset.use)
+---
+event: bg_task
+code: |
+  r.rpush(log_key, 'Processing information')
+  use = use_gpt(action_argument('use'))
+  r.rpush(log_key, 'Completed asset description processing.')
+  events = events_gpt(action_argument('events'))
+  r.rpush(log_key, 'Completed events description processing.')
+  background_response_action('bg_resp', use=use, events=events)
+---
+event: bg_resp
+code: |
+  use_description = action_argument('use')
+  events_description = action_argument('events')
+  background_response()
+---
+event: waiting_screen
+question: |
+  Hold tight while out AI models edit your document.   [FILE ai_pen.gif, 10%]
+subquestion: |
+  #### Message log
+  
+  <ul class="list-group" id="logMessages">
+  </ul>
+check in: get_log
+---
+event: get_log
+code: |
+  import json
+  new_messages = ''
+  while True:
+    message = r.lpop(log_key)
+    if message:
+      messages.append(message.decode())
+      new_messages += '<li class="list-group-item">' + message.decode() + '</li>'
+      continue
+    break
+  background_response('$("#logMessages").append(' + json.dumps(new_messages) + ')', 'javascript')
+---
+code: |
+  while True:
+    message = r.lpop(log_key)
+    if message:
+      messages.append(message.decode())
+      continue
+    break
+  last_messages_retrieved = True
+---
+event: final_screen
+question: |
+  ${ use_description }; ${ events_description}
+subquestion: |
+  #### Message log
+  
+  <ul class="list-group" id="logMessages">
+  % for message in messages:
+    <li class="list-group-item">${ message }</li>
+  % endfor
+  </ul>
