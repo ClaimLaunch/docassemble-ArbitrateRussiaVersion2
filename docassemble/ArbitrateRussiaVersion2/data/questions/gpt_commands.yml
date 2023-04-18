@@ -15,6 +15,14 @@ mandatory: True
 code: |
   asset.events = "test asset events"
   asset.use = "test asset use"
+  asset.initial_value = 5000
+  asset.improved = True
+  asset.additional_investment = 10000
+  asset.assessment = True
+  asset.value = 18000
+  asset.value_explanation = "test value explanation"
+  asset.development = "I painted the walls"
+
   if the_task.ready():
     last_messages_retrieved
     final_screen
@@ -22,7 +30,7 @@ code: |
     waiting_screen
 ---
 code: |
-  the_task = background_action('bg_task', 'refresh', events=asset.events,use=asset.use)
+  the_task = background_action('bg_task', 'refresh', events=asset.events,use=asset.use, initial_value=asset.initial_value, improved=asset.improved, additional_investment=asset.additional_investment, development=asset.development, assessment=asset.assessment, value=asset.value, value_explanation=asset.value_explanation)
 ---
 event: bg_task
 code: |
@@ -31,17 +39,21 @@ code: |
   r.rpush(log_key, 'Completed asset description processing.')
   events = events_gpt(action_argument('events'))
   r.rpush(log_key, 'Completed events description processing.')
-  background_response_action('bg_resp', use=use, events=events)
+  damages=damages_gpt(asset.initial_value, asset.improved, asset.additional_investment,   asset.development, asset.assessment, asset.value, asset.value_explanation)
+  r.rpush(log_key, 'Completed damages calculations processing.')
+  background_response_action('bg_resp', use=use, events=events, damages=damages)
 ---
 event: bg_resp
 code: |
   use_description = action_argument('use')
   events_description = action_argument('events')
+  damages_description = action_argument('damages')
   background_response()
 ---
 event: waiting_screen
+section: generate
 question: |
-  Hold tight while out AI models edit your document.   [FILE ai_pen.gif, 10%]
+  Hold tight while our AI models edit your document.   [FILE ai_pen.gif, 10%]
 subquestion: |
   #### Message log
   
@@ -72,8 +84,9 @@ code: |
   last_messages_retrieved = True
 ---
 event: final_screen
+section: generate
 question: |
-  ${ use_description }; ${ events_description}
+  ${ damages_description }
 subquestion: |
   #### Message log
   
@@ -82,3 +95,5 @@ subquestion: |
     <li class="list-group-item">${ message }</li>
   % endfor
   </ul>
+buttons:
+  Continue: final_review

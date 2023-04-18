@@ -37,7 +37,8 @@ sections:
     - damages: Description
     - damages_docs: Supporting Documents
   - confirm: Review responses
-  - conclusion: Conclusion
+  - generate: Generate Document
+  - final_reviw: Final Review
 ---
 include:
   -  disclaimer.yml
@@ -307,3 +308,7 @@ code: |
     final_screen
   else:
     waiting_screen
+---
+event: final_review
+section: Final Review
+question: Thank You!

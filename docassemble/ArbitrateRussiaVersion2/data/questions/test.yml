@@ -2,15 +2,34 @@
 modules:
   - .background
 ---
-
+objects:
+  - r: DARedis
+  - asset: Event
+---
+mandatory: True
+code: |
+  log_key = r.key('log:' + user_info().session)
+  messages = list()
+---
+mandatory: True
+code: |
+  asset.events = "test asset events"
+  asset.use = "test asset use"
+  asset.initial_value = 5000
+  asset.improved = True
+  asset.additional_investment = 10000
+  asset.assessment = True
+  asset.value = 18000
+  asset.value_explanation = "test value explanation"
+  asset.development = "I painted the walls"
 ---
 mandatory: True
 question: |
   Process
 subquestion: |
-   ${use_description}
+   ${damages_description}
 ---
 ---
 code: |
-  use_description=use_gpt("I lived there with my family - 2 grown ups and one child, for 7 years")
+  damages_description=damages_gpt(asset.initial_value, asset.improved, asset.additional_investment,   asset.development, asset.assessment, asset.value, asset.value_explanation)
 ---
