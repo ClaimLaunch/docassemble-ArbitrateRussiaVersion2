@@ -48,6 +48,7 @@ code: |
   use_description = action_argument('use')
   events_description = action_argument('events')
   damages_description = action_argument('damages')
+  total_damages = total_damages_gpt(damages_description)
   background_response()
 ---
 event: waiting_screen
@@ -55,8 +56,6 @@ section: generate
 question: |
   Hold tight while our AI models edit your document.   [FILE ai_pen.gif, 10%]
 subquestion: |
-  #### Message log
-  
   <ul class="list-group" id="logMessages">
   </ul>
 check in: get_log
@@ -86,14 +85,15 @@ code: |
 event: final_screen
 section: generate
 question: |
-  ${ damages_description }
+  ${ total_damages }
 subquestion: |
-  #### Message log
-  
+
   <ul class="list-group" id="logMessages">
   % for message in messages:
     <li class="list-group-item">${ message }</li>
   % endfor
   </ul>
+     
+     
 buttons:
   Continue: final_review

@@ -91,7 +91,7 @@ review:
   - Edit address: client.address.address
     button: |
       Mailing address: ${ client.address.address }, ${ client.address.address. city }
-        ${client.address.state} ${client.address.zip} ${client.address.county}
+        ${client.address.state} ${client.address.zip} ${client.address.country}
 ---
 mandatory: True
 section: asset_description
@@ -303,6 +303,14 @@ buttons:
 ---
 event: start_gpt
 code: |
+  if asset.assessment:
+    temp_value=currency(asset.value, decimals=False, symbol='$')
+    letter_2=f"Prior to the Russian Federation’s actions, the value of the property was approximately {temp_value}."
+  else: letter_2=""
+  if asset.improved:
+    asset.total_investment=asset.initial_value+asset.improved
+  else:
+    asset.total_investment=asset.initial_value
   the_task
   if the_task.ready():
     final_screen

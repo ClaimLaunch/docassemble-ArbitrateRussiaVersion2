@@ -44,7 +44,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.ArbitrateRussiaVersion2',
-      version='0.0.6',
+      version='0.0.7',
       description=('A docassemble extension.'),
       long_description='Proprietary License\r\n\r\nThis code is proprietary and confidential, and is the exclusive property of David Chriki. No part of this code may be used, modified, or distributed without the express written consent of David Chriki. Unauthorized use, modification, or distribution of this code is strictly prohibited.',
       long_description_content_type='text/markdown',
@@ -54,7 +54,7 @@ setup(name='docassemble.ArbitrateRussiaVersion2',
       url='https://docassemble.org',
       packages=find_packages(),
       namespace_packages=['docassemble'],
-      install_requires=['openai>=0.27.4'],
+      install_requires=['openai>=0.27.5'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/ArbitrateRussiaVersion2/', package='docassemble.ArbitrateRussiaVersion2'),
      )
