@@ -38,7 +38,7 @@ sections:
     - damages_docs: Supporting Documents
   - confirm: Review responses
   - generate: Generate Document
-  - final_reviw: Final Review
+  - final_review: Final Review
 ---
 include:
   -  disclaimer.yml
@@ -220,9 +220,11 @@ fields:
     min: 0
   - Did you invest in improving the asset?: asset.improved
     datatype: yesnoradio
-  - How much did you invest in improving the asset?: asset.additinal_investment      
+  - How much did you invest in improving the asset?: asset.additional_investment      
     datatype: currency
     min: 0
+    show if: asset.improved
+  - Please describe the improvments you made in the asset: asset.development 
     show if: asset.improved
   - Do you have an assessment of the value of the asset prior to Russia's actions?: asset.assessment
     datatype: yesnoradio
@@ -237,7 +239,7 @@ fields:
 on change:
   asset.improved: |
     if not asset.improved:
-      asset.additinal_investment=""
+      asset.additional_investment=""
 ---
 on change:
   asset.assessment: |
@@ -254,7 +256,7 @@ review:
       Initial value: ${ asset.initial_value }
   - Edit additional investment: asset.improved
     button: |
-      Additional investment: ${ asset.additinal_investment }
+      Additional investment: ${ asset.additional_investment }
   - Edit value assessment: asset.assessment
     button: |
       Value assessment: ${ asset.value }
@@ -298,8 +300,9 @@ subquestion: |
   We have collected all the information we need to prepare your arbitration claim against Russia. Before proceeding, please take a moment to review your responses using the navigation bar at the top/side of the page. If you need to make any changes or corrections, you may do so now. 
   
   Once you are satisfied with your responses, please click 'Continue' to generate the document.
-buttons:
-  Continue: start_gpt
+action buttons:
+  - label: Continue
+    action: start_gpt
 ---
 event: start_gpt
 code: |
@@ -308,15 +311,28 @@ code: |
     letter_2=f"Prior to the Russian Federation’s actions, the value of the property was approximately {temp_value}."
   else: letter_2=""
   if asset.improved:
-    asset.total_investment=asset.initial_value+asset.improved
+    asset.total_investment=asset.initial_value+asset.additional_investment
   else:
     asset.total_investment=asset.initial_value
-  the_task
+    asset.additional_investment=""
+    asset.development=""
+  date=date.today()
   if the_task.ready():
+    last_messages_retrieved
     final_screen
   else:
     waiting_screen
 ---
 event: final_review
-section: Final Review
-question: Thank You!
+section: final_review
+question: |
+  Thank you!
+subquestion: |
+  Your document is ready. Thank you for using ClaimLaunch
+attachment:
+  name: Your letter
+  filename: letter
+  docx template file: notice_of_intent_template_-_Rsussia_Ukraine_BIT_-_Cover_Letter.docx
+  valid formats:
+    - pdf
+    - docx

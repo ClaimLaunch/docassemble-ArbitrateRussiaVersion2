@@ -11,7 +11,7 @@ code: |
   log_key = r.key('log:' + user_info().session)
   messages = list()
 ---
-mandatory: True
+event: gpt
 code: |
   asset.events = "test asset events"
   asset.use = "test asset use"
@@ -85,7 +85,7 @@ code: |
 event: final_screen
 section: generate
 question: |
-  ${ total_damages }
+  Your document is ready - click continue to review.
 subquestion: |
 
   <ul class="list-group" id="logMessages">
@@ -94,6 +94,6 @@ subquestion: |
   % endfor
   </ul>
      
-     
-buttons:
-  Continue: final_review
+action buttons:
+  - label: Continue
+    action: final_review
