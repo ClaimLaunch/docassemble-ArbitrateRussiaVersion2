@@ -24,6 +24,7 @@ sections:
     -  disclaimer: Disclaimer
     -  process: Process
   - contact_info: Contact info
+  - user_info: Ukrainian citizenship/entity
   - asset_info: Asset info
     subsections:
     - asset_description: Asset Description
@@ -44,6 +45,7 @@ include:
   -  disclaimer.yml
   -  process.yml
   -  gpt_commands.yml
+  - docassemble.demo:data/questions/examples/cards.yml
 ---
 mandatory: True
 section: contact_info
@@ -92,6 +94,38 @@ review:
     button: |
       Mailing address: ${ client.address.address }, ${ client.address.address. city }
         ${client.address.state} ${client.address.zip} ${client.address.country}
+---
+mandatory: True
+section: user_info
+question: Are you a Ukranian person or entity?
+subquestion: |
+  ${ card_start("Why this is important", color="info", icon="comment") }
+  This form refers to a treaty between
+  Russia and Ukraine, which in this context
+  only applies to Ukrainian
+  citizens and businesses.
+  ${ card_end() }
+fields:
+  - Are you a natural person or a legal/business entity (e.g., corporation): entity_type
+    choices:
+    - Natural person
+    - Legal entity
+    default: natural person
+  - Are you a Ukrainian citizen?: investor.citizen
+    datatype: noyesradio
+    show if:
+      variable: entity_type
+      is: Natural person
+---
+event: user_info
+section: user_info
+question: |
+  Review Ukrainian citizenship information
+review:
+  - Edit entity type: entity_type
+    button: |
+      Entity type: ${ entity_type }
+
 ---
 mandatory: True
 section: asset_description
