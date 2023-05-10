@@ -30,13 +30,14 @@ code: |
     waiting_screen
 ---
 code: |
-  the_task = background_action('bg_task', 'refresh', events=asset.events,use=asset.use, initial_value=asset.initial_value, improved=asset.improved, additional_investment=asset.additional_investment, development=asset.development, assessment=asset.assessment, value=asset.value, value_explanation=asset.value_explanation)
+  the_task = background_action('bg_task', 'refresh', control = asset.control, events=asset.events,use=asset.use, initial_value=asset.initial_value, improved=asset.improved, additional_investment=asset.additional_investment, development=asset.development, assessment=asset.assessment, value=asset.value, value_explanation=asset.value_explanation)
 ---
 event: bg_task
 code: |
   r.rpush(log_key, 'Processing information')
   use = use_gpt(action_argument('use'))
   r.rpush(log_key, 'Completed asset description processing.')
+  control = control_gpt(action_argument('control'))
   events = events_gpt(action_argument('events'))
   r.rpush(log_key, 'Completed events description processing.')
   damages=damages_gpt(asset.initial_value, asset.improved, asset.additional_investment,   asset.development, asset.assessment, asset.value, asset.value_explanation)
@@ -47,6 +48,7 @@ event: bg_resp
 code: |
   use_description = action_argument('use')
   events_description = action_argument('events')
+  control_description = action_argument('control')
   damages_description = action_argument('damages')
   total_damages = total_damages_gpt(damages_description)
   background_response()

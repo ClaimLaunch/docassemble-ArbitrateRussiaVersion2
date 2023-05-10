@@ -24,7 +24,7 @@ sections:
     -  disclaimer: Disclaimer
     -  process: Process
   - contact_info: Contact info
-  - user_info: Ukrainian citizenship/entity
+  - user_info: Confirm Ukrainian Affiliation
   - asset_info: Asset info
     subsections:
     - asset_description: Asset Description
@@ -107,15 +107,19 @@ subquestion: |
   ${ card_end() }
 fields:
   - Are you a natural person or a legal/business entity (e.g., corporation): entity_type
+    datatype: radio
     choices:
     - Natural person
     - Legal entity
     default: natural person
-  - Are you a Ukrainian citizen?: investor.citizen
+  - Are you a Ukrainian citizen?: investor_citizen
     datatype: noyesradio
     show if:
       variable: entity_type
       is: Natural person
+validation code: |
+  if investor_citizen==True:
+    validation_error("This form currently supports only Ukrainian citizens and businesses", field="investor_citizen")
 ---
 event: user_info
 section: user_info
@@ -209,6 +213,16 @@ review:
 ---
 mandatory: True
 section: events_description
+question: Please desribe any event that may estanish an argument that Russia or Russian forces had effective control over the territory where the asset was locatedbefore or at the time the asset was damaged. If you cannot think of any, please leave this question blank.
+fields:
+  - : asset.control
+    label above field: True    
+    input type: area
+    rows: 10
+    required: False
+---
+mandatory: True
+section: events_description
 question: Please describe the sequence of events that led to the damages you suffered as a result of the Russian forces' actions
 subquestion: Please include any specific details you remember, such as the date and time of the events, the location where they occurred, and any individuals or groups involved.
 fields:
@@ -222,9 +236,12 @@ section: events_description
 question: |
   Review description of events
 review:
-  - Edit asset address: asset.events
+  - Edit control description: asset.control
     button: |
-      Asset address: ${ asset.events }
+      Description: ${ asset.control }
+  - Edit events: asset.events
+    button: |
+      Events: ${ asset.events }
 ---
 mandatory: True
 section: events_docs

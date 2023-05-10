@@ -31,6 +31,10 @@ def use_gpt(use):
   question = "What was the asset used for?"
   return gpt_revise(question, use)
 
+def control_gpt(control):
+  question="Please desribe any event that may estanish an argument that Russia or Russian forces had effective control over the territory where the asset was locatedbefore or at the time the asset was damaged. If you cannot think of any, please leave this question blank."  
+  return gpt_revise(question, control)
+
 def events_gpt(events):
   question="Please describe the sequence of events that led to the damages you suffered as a result of the Russian forces' actions."  
   return gpt_revise(question, events)
