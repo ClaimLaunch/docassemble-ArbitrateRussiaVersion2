@@ -1,0 +1,60 @@
+---
+include:
+  - ru_law_articles.yml
+---
+mandatory: True
+code: |
+  luhansk_law_title_en="On the Admission of the Luhansk People's Republic into the Russian Federation and the Formation of a New Subject within the Russian Federation - the Luhansk People's Republic"
+  luhansk_law_title_ru="Федеральный конституционный закон от 04.10.2022 No. 6-ФКЗ 'О принятии в Российскую Федерацию Луганской Народной Республики и образовании в составе Российской Федерации нового субъекта - Луганской Народной Республики'"
+  
+  donetsk_law_title_en="On the Admission of the Donetsk People's Republic into the Russian Federation and the Formation of a New Subject within the Russian Federation - the Donetsk People's Republic"
+  donetsk_law_title_ru="Федеральный конституционный закон от 04.10.2022 No. 5-ФКЗ 'О принятии в Российскую Федерацию Донецкой Народной Республики и образовании в составе Российской Федерации нового субъекта - Донецкой Народной Республики'"
+
+  kherson_law_title_en="On the Admission of the Kherson Oblast into the Russian Federation and the Formation of a New Subject within the Russian Federation - the Kherson Oblast"
+  kherson_law_title_ru="Федеральный конституционный закон от 04.10.2022 No. 8-ФКЗ 'О принятии в Российскую Федерацию Херсонской области и образовании в составе Российской Федерации нового субъекта - Херсонской области'"
+
+  zaporizhzhia_law_title_en="On the Admission of the Zaporizhzhia Oblast into the Russian Federation and the Formation of a New Subject within the Russian Federation - the Zaporizhzhia Oblast"
+  zaporizhzhia_law_title_ru="Федеральный конституционный закон от 04.10.2022 No. 7-ФКЗ 'О принятии в Российскую Федерацию Запорожской области и образовании в составе Российской Федерации нового субъекта - Запорожской области'"
+    
+if asset.address.province == "Donetsk":
+    incorporation_law_en = donetsk_law_title_en
+    incorporation_law_ru = donetsk_law_title_ru
+    art_12_ru = art_12_ru_donetsk
+    art_12_en = art_12_en_donetsk
+    art_31(6)_ru = art_31_6_ru_donetsk
+    art_31(6)_en = art_31_6_ru_donetsk
+    art_31(9)_ru = art_31_9_ru_donetsk
+    art_31(9)_en = art_31_9_en_donetsk
+
+elif asset.address.province == "Kherson":
+    incorporation_law_en = kherson_law_title_en
+    incorporation_law_ru = kherson_law_title_ru
+    art_12_ru = kherson_art_12_ru
+    art_12_en = kherson_art_12_en
+    art_31(6)_ru = kherson_art_31_6_ru
+    art_31(6)_en = kherson_art_31_6_en
+    art_31(9)_ru = kherson_art_31_9_ru
+    art_31(9)_en = kherson_art_31_9_en
+
+elif asset.address.province == "Luhansk":
+    incorporation_law_en = luhansk_law_title_en
+    incorporation_law_ru = luhansk_law_title_ru
+    art_12_ru = luhansk_art_12_ru
+    art_12_en = luhansk_art_12_en
+    art_31(6)_ru = luhansk_art_31_6_ru
+    art_31(6)_en = luhansk_art_31_6_en
+    art_31(9)_ru = luhansk_art_31_9_ru
+    art_31(9)_en = luhansk_art_31_9_en
+
+elif asset.address.province == "Zaporizhzhia":
+    incorporation_law_en = zaporizhzhia_law_title_en
+    incorporation_law_ru = zaporizhzhia_law_title_ru
+    art_12_ru = zaporizhzhia_art_12_ru
+    art_12_en = zaporizhzhia_art_12_en
+    art_31_6_ru = zaporizhzhia_art_31_6_ru
+    art_31_6_en = zaporizhzhia_art_31_6_en
+    art_31_9_ru = zaporizhzhia_art_31_9_ru
+    art_31_9_en = zaporizhzhia_art_31_9_en
+
+---
+

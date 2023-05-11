@@ -46,6 +46,7 @@ include:
   -  process.yml
   -  gpt_commands.yml
   - docassemble.demo:data/questions/examples/cards.yml
+  - russian_law.yml
 ---
 mandatory: True
 section: contact_info
@@ -189,9 +190,6 @@ review:
   - Edit uses: asset.use
     button: |
       Uses: ${ asset.use }
-  - Edit phone number: phone_number
-    button: |
-      Phone number: ${ phone_number }
 
 ---
 mandatory: True
@@ -213,7 +211,8 @@ review:
 ---
 mandatory: True
 section: events_description
-question: Please desribe any event that may estanish an argument that Russia or Russian forces had effective control over the territory where the asset was locatedbefore or at the time the asset was damaged. If you cannot think of any, please leave this question blank.
+question: Russian Control
+subquestion: Describe any event that may establish Russian or Russian forces controlled the territory where the asset was located before or at the time the asset was damaged. If you cannot think of any, please leave this question blank.
 fields:
   - : asset.control
     label above field: True    
@@ -246,7 +245,7 @@ review:
 mandatory: True
 section: events_docs
 question: Events - supporting documentation
-sebquestion: Please upload any documents, photos, or other evidence that support your description of the events leading to the damages you suffered as a result of the Russian military forces' actions. This may include but is not limited to medical records, police reports, or eyewitness accounts
+sebquestion: Please upload any documents, photos, or other evidence that support your description of the events leading to the damages you suffered as a result of the Russian military forces' actions. This may include but is not limited to news articles, reports, or eyewitness accounts
 fields:
   - Supporting Documents: asset.events_evidence
     datatype: files
