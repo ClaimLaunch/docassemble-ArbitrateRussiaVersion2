@@ -36,6 +36,7 @@ event: bg_task
 code: |
   r.rpush(log_key, 'Processing information')
   use = use_gpt(action_argument('use'))
+  ownership = ownership_gpt(asset.ownership, asset.ownership_background)
   r.rpush(log_key, 'Completed asset description processing.')
   control = control_gpt(action_argument('control'))
   events = events_gpt(action_argument('events'))
@@ -43,6 +44,10 @@ code: |
   damages=damages_gpt(asset.initial_value, asset.improved, asset.additional_investment,   asset.development, asset.assessment, asset.value, asset.value_explanation)
   r.rpush(log_key, 'Completed damages calculations processing.')
   background_response_action('bg_resp', use=use, events=events, damages=damages)
+  r.rpush(log_key, 'Completed events description processing.')  
+  r.rpush(log_key, 'Crafting draft arguments: asset is a protected asset')  
+  investment_class = investment_gpt(action_argument('use'))
+  r.rpush(log_key, 'Crafting draft arguments: asset is a protected asset')  
 ---
 event: bg_resp
 code: |
@@ -51,6 +56,8 @@ code: |
   control_description = action_argument('control')
   damages_description = action_argument('damages')
   total_damages = total_damages_gpt(damages_description)
+  ownership_bg=action_argument('ownership')
+  investment_classification=action_argument('investment_class')
   background_response()
 ---
 event: waiting_screen

@@ -39,6 +39,10 @@ def events_gpt(events):
   question="Please describe the sequence of events that led to the damages you suffered as a result of the Russian forces' actions."  
   return gpt_revise(question, events)
 
+def ownership_gpt(ownership, bg):
+  question=f"Thank you for letting us know you {ownerhsip} the asset. Please provide additional background."  
+  return gpt_revise(question, bg)
+
 def damages_gpt(initial_value, improved, additional_investment, development, assessment, value, value_explanation):
   import json
   import openai
@@ -83,6 +87,44 @@ def total_damages_gpt(text):
   temperature=0.4,
   messages=[
         {"role": "system", "content": "You are a handy assistant"},
+        {"role": "user", "content":  prompt}
+    ]
+)
+    
+  return response["choices"][0]["message"]["content"]
+
+def investment_gpt(use):
+  import json
+  import openai
+  from docassemble.base.util import get_config
+  prompt = f"You are an experienced attorney at the best law firm practicing investment treaty arbitration. You are drafting a section in a notice of arbitration against the Russian Federation.\n Investor's description of asset: {use}. \n Argue that the asset is an investment according to Article 1(1) of the Treaty without quoting from it.  Use gender-neutral terms and refer to the Client as 'Investor'. Do not refer to Client's hopes or desiers, if provided. Please only provide the proposed text. Do not include any text addressed to me. Do not add any fact you are not provided with. Particularly, do not assume anything about the way the asset was used or about its location unless specifically provided with that information by Investor. Any reference to amounts should be $ with no decimals and commas. Do not say things like 'Investor informed us' - instead say 'Investor submits that'.\n Continue the argument after the following paragraph:\n The term 'Investment' is defined broadly in Article 1(1) of the Treaty as “all kinds of property and intellectual values, which are put in by the investor of one Contracting Party on the territory of the other Contracting Party in conformity with the latter’s legislation.' Such type of investments include, but not limited to: 'a) movable and immovable property and any other rights of property therein; b) monetary funds and also securities, liabilities, deposits and other forms of participation; c) rights to objects of intellectual property, including authors' copyrights and related rights, trade marks, the rights to inventions, industrial samples, models and also technological processes and know-how; d) rights to perform commercial activity, including rights to prospecting, development and exploitation of natural resources.' "
+  
+  openai.api_key = get_config('openai secret key')
+
+  response=openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  temperature=0.4,
+  messages=[
+        {"role": "system", "content": "You are an experienced attorney at the best law firm practicing investment treaty arbitration"},
+        {"role": "user", "content":  prompt}
+    ]
+)
+    
+  return response["choices"][0]["message"]["content"]
+
+def investment_gpt(events):
+  import json
+  import openai
+  from docassemble.base.util import get_config
+  prompt = f"You are an experienced attorney at the best law firm practicing investment treaty arbitration. You are drafting a section in a notice of arbitration against the Russian Federation.\n Investor's description of events: {events}. \n Argue that the asset was expropriated in violation of Article 5(1) of the Treaty without quoting from it.  Use gender-neutral terms and refer to the Client as 'Investor'. Do not refer to Client's hopes or desiers, if provided. Please only provide the proposed text. Do not include any text addressed to me. Do not add any fact you are not provided with. Particularly, do not assume anything about the way the asset was used or about its location unless specifically provided with that information by Investor. Any reference to amounts should be $ with no decimals and commas. Do not say things like 'Investor informed us' - instead say 'Investor submits that'.\n Continue the argument after the following paragraphs:\n Article 5(1) of the Treaty provides that an investment “shall not be subject to expropriation, nationalization or other measures equivalent in effect to expropriation ... except in cases where such measures are taken in the public interest according to the procedures established by law, are not of a discriminatory nature and are accompanied by prompt, adequate and effective compensation.” Such expropriation, nationalization, or equivalent measures can only be legally taken in cases where they are in the public interest, are non-discriminatory, are conducted through due process of law, and are accompanied by prompt, adequate, and effective compensation. All four of these requirements must be met in order for an expropriation to be considered lawful. Arbitral tribunals have consistently held that failure to meet any one of these conditions renders the expropriation wrongful. \n Notably, the Special Rapporteur on International Responsibility highlighted the importance of the public purpose requirement for the legality of an expropriation: \n '[T]he least that can be required of the State is that it should exercise [its] power only when the measure is clearly justified by the public interest. Any other view would condone and even facilitate the abusive exercise of the power to expropriate and give legal sanction to manifestly arbitrary acts of expropriation. […] It is accordingly sufficient to require that all States should comply with the condition or requirement which is common to all; namely, that the power to expropriate should be exercised only when expropriation is necessary and is justified by a genuinely public purpose or reason. If this raison d’etre is plainly absent, the measure of expropriation is ‘arbitrary.’'\n The Treaty prohibits not only direct expropriation, but also indirect expropriation through measures that are “equivalent in effect to expropriation”. The Treaty's protection covers not only physical takings of property or legal title transfers, but also actions that deprive an investor of the use and enjoyment of their investment without affecting possession or formal title. In cases of direct expropriation, there is typically an open and clear intent to deprive the owner of their property through physical means or legal decrees. However, in cases of indirect expropriation, it is the measure's economic impact on the investment that determines whether it constitutes an unlawful expropriation, regardless of whether there is a clear intent to expropriate."
+  
+  openai.api_key = get_config('openai secret key')
+
+  response=openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  temperature=0.4,
+  messages=[
+        {"role": "system", "content": "You are an experienced attorney at the best law firm practicing investment treaty arbitration"},
         {"role": "user", "content":  prompt}
     ]
 )
