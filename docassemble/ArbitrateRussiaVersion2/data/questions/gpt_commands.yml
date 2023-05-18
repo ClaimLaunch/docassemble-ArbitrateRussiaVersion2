@@ -47,7 +47,11 @@ code: |
   r.rpush(log_key, 'Completed events description processing.')  
   r.rpush(log_key, 'Crafting draft arguments: asset is a protected asset')  
   investment_class = investment_gpt(action_argument('use'))
-  r.rpush(log_key, 'Crafting draft arguments: asset is a protected asset')  
+  r.rpush(log_key, 'Crafting draft arguments: asset is protected by international investment law')
+  expro = expropriation_gpt(action_argument('use'), action_argument('events'), damages)
+  r.rpush(log_key, 'Crafting draft arguments: asset was expropriated')  
+  protection = protection_gpt(action_argument('use'), action_argument('events'), damages)
+  r.rpush(log_key, 'Crafting draft arguments: Russia failed to protect the asset')  
 ---
 event: bg_resp
 code: |
@@ -58,6 +62,8 @@ code: |
   total_damages = total_damages_gpt(damages_description)
   ownership_bg=action_argument('ownership')
   investment_classification=action_argument('investment_class')
+  expropriation_claim=action_argument('expro')
+  protection=action_argument('protection')
   background_response()
 ---
 event: waiting_screen
