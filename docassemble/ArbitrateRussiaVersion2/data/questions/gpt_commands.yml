@@ -30,28 +30,33 @@ code: |
     waiting_screen
 ---
 code: |
-  the_task = background_action('bg_task', 'refresh', control = asset.control, events=asset.events,use=asset.use, initial_value=asset.initial_value, improved=asset.improved, additional_investment=asset.additional_investment, development=asset.development, assessment=asset.assessment, value=asset.value, value_explanation=asset.value_explanation)
+  the_task = background_action('bg_task', 'refresh', control = asset.control, events=asset.events,use=asset.use, initial_value=asset.initial_value, improved=asset.improved, additional_investment=asset.additional_investment, development=asset.development, assessment=asset.assessment, value=asset.value, value_explanation=asset.value_explanation, ownership_type=asset.ownership, ownership_background=asset.ownership_background)
 ---
 event: bg_task
 code: |
   r.rpush(log_key, 'Processing information')
   use = use_gpt(action_argument('use'))
-  ownership = ownership_gpt(asset.ownership, asset.ownership_background)
+  r.rpush(log_key, 'Processing ownership information')
+  ownership = ownership_gpt(action_argument('ownership_type'),action_argument('ownership_background'))
   r.rpush(log_key, 'Completed asset description processing.')
   control = control_gpt(action_argument('control'))
   events = events_gpt(action_argument('events'))
   r.rpush(log_key, 'Completed events description processing.')
-  damages=damages_gpt(asset.initial_value, asset.improved, asset.additional_investment,   asset.development, asset.assessment, asset.value, asset.value_explanation)
+  damages=damages_gpt(action_argument('initial_value'), action_argument('improved'), action_argument('additional_investment'), action_argument('development'), action_argument('assessment'), action_argument('value'), action_argument('value_explanation'))
   r.rpush(log_key, 'Completed damages calculations processing.')
-  background_response_action('bg_resp', use=use, events=events, damages=damages)
-  r.rpush(log_key, 'Completed events description processing.')  
-  r.rpush(log_key, 'Crafting draft arguments: asset is a protected asset')  
-  investment_class = investment_gpt(action_argument('use'))
   r.rpush(log_key, 'Crafting draft arguments: asset is protected by international investment law')
-  expro = expropriation_gpt(action_argument('use'), action_argument('events'), damages)
+  investment_class = investment_gpt(action_argument('use'))
   r.rpush(log_key, 'Crafting draft arguments: asset was expropriated')  
-  protection = protection_gpt(action_argument('use'), action_argument('events'), damages)
+  expro = expropriation_gpt(action_argument('use'), action_argument('events'), damages)
   r.rpush(log_key, 'Crafting draft arguments: Russia failed to protect the asset')  
+  protection = protection_gpt(action_argument('use'), action_argument('events'), damages)
+  r.rpush(log_key, 'Crafting draft arguments: Russia failed to provide fair and equitable treatment')
+  fet = fet_gpt(action_argument('use'), action_argument('events'), damages)
+  r.rpush(log_key, 'Crafting draft arguments: Russia failed to provide full protection and security')  
+  fps = fps_gpt(action_argument('use'), action_argument('events'), damages)
+  r.rpush(log_key, 'Crafting draft section on reparation')  
+  reparation = reparation_gpt(action_argument('use'), action_argument('events'), damages)
+  background_response_action('bg_resp', ownership=ownership, use=use, control=control, events=events, damages=damages, investment_class=investment_class, expro=expro, protection=protection, fet=fet, fps=fps, reparation=reparation)
 ---
 event: bg_resp
 code: |
@@ -63,7 +68,10 @@ code: |
   ownership_bg=action_argument('ownership')
   investment_classification=action_argument('investment_class')
   expropriation_claim=action_argument('expro')
-  protection=action_argument('protection')
+  protection_claim=action_argument('protection')
+  fet_claim=action_argument('fet')
+  fps_claim=action_argument('fet')
+  reparation_claim=action_argument('reparation')
   background_response()
 ---
 event: waiting_screen

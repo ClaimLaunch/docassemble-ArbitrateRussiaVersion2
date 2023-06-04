@@ -42,11 +42,12 @@ sections:
   - final_review: Final Review
 ---
 include:
-  -  disclaimer.yml
-  -  process.yml
-  -  gpt_commands.yml
+  - disclaimer.yml
+  - process.yml
+  - gpt_commands.yml
   - docassemble.demo:data/questions/examples/cards.yml
   - russian_law.yml
+  - ru_law_articles.yml
 ---
 mandatory: True
 section: contact_info
@@ -382,7 +383,7 @@ subquestion: |
 attachment:
   name: Your letter
   filename: letter
-  docx template file: notice_of_intent_template_-_Rsussia_Ukraine_BIT_-_Cover_Letter.docx
+  docx template file: notice_of_intent_template_-_Rsussia_Ukraine_BIT.docx
   valid formats:
     - pdf
     - docx
