@@ -40,7 +40,9 @@ def events_gpt(events):
   return gpt_revise(question, events)
 
 def ownership_gpt(ownership, bg):
-  question=f"Thank you for letting us know you {ownerhsip} the asset. Please provide additional background."  
+  q1="Thank you for letting us know you"
+  q2="the asset. Please provide additional background."
+  question=''.join([q1,ownership,q2])  
   return gpt_revise(question, bg)
 
 def damages_gpt(initial_value, improved, additional_investment, development, assessment, value, value_explanation):
@@ -50,7 +52,7 @@ def damages_gpt(initial_value, improved, additional_investment, development, ass
 
   openai.api_key = get_config('openai secret key')
 
-  bg = "The following is for your knowledge only: You are an experienced attorney at the best law firm practicing investment treaty arbitration. You are drafting a section in a ntoice of arbitration against the Russian Federtion describing how the Investor used an asset before it was damaged by Russian forces. The investor lacks legal knowledge, and so Investor's response to questions asking about the asset and events related to the claim must be rephrased. You are drafting a pargraph in a notice of arbitration against the Russian Federation describing the damages incurred by your client. Draft that paragraph only - not the entire notice. Use gender neutral terms and refer to Client as 'Investor'. Do not refer to Client's hopes or desires, if provided. Remember, you are expected to meet high standards. Please only provide the proposed text. Do not add any fact you are not provided with, and avoid any issue you have no information about, or information that the Investor does not know. Particularly, do not assume anything about the way the asset was used or about it's location unless unless specifically provided with that information by Investor. Any reference to amounts should be as $ with no decimals and with commas. Do not say things like 'Investor informed us' - instead say 'Investor submits that'. The damages are calculated as follows: "
+  bg = "The following is for your knowledge only: You are an experienced attorney at the best law firm practicing investment treaty arbitration. You are drafting a section in a ntoice of arbitration against the Russian Federtion describing how the Investor used an asset before it was damaged by Russian forces. The investor lacks legal knowledge, and so Investor's response to questions asking about the asset and events related to the claim must be rephrased. You are drafting a pargraph in a notice of arbitration against the Russian Federation describing the damages incurred by your client. Draft that paragraph only - not the entire notice. Use gender neutral terms and refer to Client as 'Investor'. Do not refer to Client's hopes or desiers, if provided. Remember, you are expected to meet high standards. Please only provide the proposed text. Do not add any fact you are not provided with, and avoid any issue you have no information about, or information that the Investor does not know. Particularly, do not assume anything about the way the asset was used or about it's location unless unless specifically provided with that information by Investor. Any reference to amounts should be as $ with no decimals and with commas. Do not say things like 'Investor informed us' - instead say 'Investor submits that'. The damages are calculated as follows: "
 
   iv = f"The Initial value of of the asset when first obtained was {initial_value}."
   if improved:
@@ -73,6 +75,7 @@ def damages_gpt(initial_value, improved, additional_investment, development, ass
 )
     
   return response["choices"][0]["message"]["content"]
+
 
 def total_damages_gpt(text):
   import json

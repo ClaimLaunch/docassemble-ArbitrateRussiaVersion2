@@ -22,14 +22,12 @@ code: |
   asset.value = 18000
   asset.value_explanation = "test value explanation"
   asset.development = "I painted the walls"
+  ownership_type = "Purchased"
+  ownership_background = "I bought the asset from a friend"
+  ownership=ownership_gpt(ownership_type,ownership_background)
 ---
 mandatory: True
 question: |
   Process
 subquestion: |
-   ${damages_description}
----
----
-code: |
-  damages_description=damages_gpt(asset.initial_value, asset.improved, asset.additional_investment,   asset.development, asset.assessment, asset.value, asset.value_explanation)
----
+   ${ownership}

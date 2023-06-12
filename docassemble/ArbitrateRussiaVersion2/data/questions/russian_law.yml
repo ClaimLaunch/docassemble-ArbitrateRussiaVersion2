@@ -2,6 +2,9 @@
 include:
   - ru_law_articles.yml
 ---
+objects:
+  - asset: Event
+---
 mandatory: True
 code: |
   luhansk_law_title_en="On the Admission of the Luhansk People's Republic into the Russian Federation and the Formation of a New Subject within the Russian Federation - the Luhansk People's Republic"
@@ -16,7 +19,7 @@ code: |
   zaporizhzhia_law_title_en="On the Admission of the Zaporizhzhia Oblast into the Russian Federation and the Formation of a New Subject within the Russian Federation - the Zaporizhzhia Oblast"
   zaporizhzhia_law_title_ru="Федеральный конституционный закон от 04.10.2022 No. 7-ФКЗ 'О принятии в Российскую Федерацию Запорожской области и образовании в составе Российской Федерации нового субъекта - Запорожской области'"
     
-if asset.address.province == "Donetsk":
+  if asset.address.province == "Donetsk":
     incorporation_law_en = donetsk_law_title_en
     incorporation_law_ru = donetsk_law_title_ru
     art_12_ru = art_12_ru_donetsk
@@ -26,35 +29,32 @@ if asset.address.province == "Donetsk":
     art_31_9_ru = art_31_9_ru_donetsk
     art_31_9_en = art_31_9_en_donetsk
 
-elif asset.address.province == "Kherson":
+  elif asset.address.province == "Kherson":
     incorporation_law_en = kherson_law_title_en
     incorporation_law_ru = kherson_law_title_ru
-    art_12_ru = kherson_art_12_ru
-    art_12_en = kherson_art_12_en
-    art_31_6_ru = kherson_art_31_6_ru
-    art_31_6_en = kherson_art_31_6_en
-    art_31_9_ru = kherson_art_31_9_ru
-    art_31_9_en = kherson_art_31_9_en
+    art_12_ru = art_12_ru_kherson
+    art_12_en = art_12_en_kherson
+    art_31_6_ru = art_31_6_ru_kherson
+    art_31_6_en = art_31_6_enkherson
+    art_31_9_ru = art_31_9_ru_kherson
+    art_31_9_en = art_31_9_en_kherson
 
-elif asset.address.province == "Luhansk":
+  elif asset.address.province == "Luhansk":
     incorporation_law_en = luhansk_law_title_en
     incorporation_law_ru = luhansk_law_title_ru
-    art_12_ru = luhansk_art_12_ru
-    art_12_en = luhansk_art_12_en
-    art_31_6_ru = luhansk_art_31_6_ru
-    art_31_6_en = luhansk_art_31_6_en
-    art_31_9_ru = luhansk_art_31_9_ru
-    art_31_9_en = luhansk_art_31_9_en
+    art_12_ru = art_12_ru_luhansk
+    art_12_en = art_12_en_luhansk
+    art_31_6_ru = art_31_6_ruluhansk
+    art_31_6_en = art_31_6_en_luhansk
+    art_31_9_ru = art_31_9_ru_luhansk
+    art_31_9_en = art_31_9_en_luhansk
 
-elif asset.address.province == "Zaporizhzhia":
+  elif asset.address.province == "Zaporizhzhia":
     incorporation_law_en = zaporizhzhia_law_title_en
     incorporation_law_ru = zaporizhzhia_law_title_ru
-    art_12_ru = zaporizhzhia_art_12_ru
-    art_12_en = zaporizhzhia_art_12_en
-    art_31_6_ru = zaporizhzhia_art_31_6_ru
-    art_31_6_en = zaporizhzhia_art_31_6_en
-    art_31_9_ru = zaporizhzhia_art_31_9_ru
-    art_31_9_en = zaporizhzhia_art_31_9_en
-
----
-
+    art_12_ru = art_12_ru_zaporizhzhia
+    art_12_en = art_12_en_zaporizhzhia
+    art_31_6_ru = art_31_6_ru_zaporizhzhia
+    art_31_6_en = art_31_6_en_zaporizhzhia
+    art_31_9_ru = art_31_9_ru_zaporizhzhia
+    art_31_9_en = art_31_9_en_zaporizhzhia
